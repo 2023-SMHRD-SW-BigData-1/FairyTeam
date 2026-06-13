@@ -2,12 +2,14 @@
   width: 350px;
   margin: 30px auto;
 }
+
 .ModiMainBox > h3 {
   color: #555;
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
 }
+
 .ModiMainBox .ModificationImgBox {
   border: 1px solid #d3d3d3;
   width: 130px;
@@ -17,12 +19,14 @@
   overflow: hidden;
   position: relative;
 }
+
 .ModiMainBox .ModificationImgBox .ModificationImg {
   width: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .row2 {
@@ -39,4 +43,5 @@
   margin: 10px auto 10px;
   background-color: skyblue;
   border: none;
-}/*# sourceMappingURL=Modification.css.map */
+}
+/*# sourceMappingURL=Modification.css.map */

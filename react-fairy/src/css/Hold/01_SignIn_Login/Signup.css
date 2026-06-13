@@ -7,20 +7,34 @@
 }
 
 .SignUpForm {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   padding: 0 20px;
 }
+
 .SignUpForm > h1 {
   text-align: center;
 }
 
 .row1 {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
+
 .row1 p {
   font-size: 1rem;
   font-weight: bold;
@@ -35,6 +49,7 @@
   color: #777;
   font-weight: bold;
 }
+
 .idOverlap:hover {
   background-color: #aaa;
   color: #333;
@@ -43,8 +58,13 @@
 .LoginRow2 {
   margin-top: 50%;
   width: 100%;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
+
 .LoginRow2 span {
   text-align: center;
-}/*# sourceMappingURL=Signup.css.map */
+}
+/*# sourceMappingURL=Signup.css.map */

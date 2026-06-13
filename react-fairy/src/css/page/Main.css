@@ -10,6 +10,7 @@
   width: 100%;
   height: 300px;
 }
+
 .mySwiper .SlideBox1 {
   width: 100%;
   height: 100%;
@@ -18,6 +19,7 @@
   background-position: center;
   background-size: cover;
 }
+
 .mySwiper .SlideBox2 {
   width: 100%;
   height: 100%;
@@ -26,6 +28,7 @@
   background-position: center;
   background-size: cover;
 }
+
 .mySwiper .SlideBox3 {
   width: 100%;
   height: 100%;
@@ -34,6 +37,7 @@
   background-position: center;
   background-size: cover;
 }
+
 .mySwiper .SlideBox4 {
   width: 100%;
   height: 100%;
@@ -42,6 +46,7 @@
   background-position: center;
   background-size: cover;
 }
+
 .mySwiper .SlideBox5 {
   width: 100%;
   height: 100%;
@@ -58,8 +63,10 @@
 }
 
 .GridCtn {
+  display: -ms-grid;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  -ms-grid-columns: (1fr)[5];
+      grid-template-columns: repeat(5, 1fr);
   padding: 30px 30px 0 30px;
   gap: 20px;
 }
@@ -67,27 +74,39 @@
 /***********************상위컴포넌트****************************/
 /***********************하위컴포넌트****************************/
 .GridMainItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   cursor: pointer;
   position: relative;
 }
+
 .GridMainItem table {
   width: 100%;
 }
+
 .GridMainItem table tbody:hover {
-  transform: translateY(-3%);
-  transition: 0.3s;
+  -webkit-transform: translateY(-3%);
+          transform: translateY(-3%);
+  -webkit-transition: .3s;
+  transition: .3s;
 }
+
 .GridMainItem table tbody:hover .GridMainBtn::after {
   content: attr(data-name);
 }
+
 .GridMainItem table tbody .GridMainImgBox {
   border-radius: 15px;
   width: 100%;
   height: 200px;
   background-size: cover;
 }
+
 .GridMainItem table tbody .GridMainBtn {
   width: 100%;
   height: 80px;
@@ -96,10 +115,12 @@
   margin-top: 10px;
   text-align: center;
 }
+
 .GridMainItem table tbody .GridMainBtn h3,
 .GridMainItem table tbody .GridMainBtn p {
   text-align: center;
 }
+
 .GridMainItem table tbody .GridMainBtn::after {
   content: none;
   position: absolute;
@@ -119,9 +140,12 @@
 @media all and (max-width: 468px) {
   .GridCtn {
     width: 100%;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
+    -ms-grid-rows: (1fr)[2];
+        grid-template-rows: repeat(2, 1fr);
     padding: 30px 30px 0 30px;
     gap: 20px;
   }
-}/*# sourceMappingURL=Main.css.map */
+}
+/*# sourceMappingURL=Main.css.map */

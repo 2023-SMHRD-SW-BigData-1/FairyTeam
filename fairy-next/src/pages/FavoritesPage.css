@@ -1,0 +1,17 @@
+.fav-tabs { display: flex; border-bottom: 2px solid var(--line); margin-bottom: 18px; overflow-x: auto; }
+.fav-tab {
+  background: none; border: none; padding: 12px 18px; font-size: 15px; font-weight: 700;
+  color: var(--gray); border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap;
+}
+.fav-tab.on { color: var(--violet-dark); border-bottom-color: var(--violet); }
+.fav-tab-count { color: var(--accent); font-size: 13px; }
+
+.fav-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.fav-sorts { display: flex; gap: 4px; }
+.fav-sort { background: none; border: none; font-size: 13px; color: var(--gray); padding: 4px 8px; }
+.fav-sort.on { color: var(--accent); font-weight: 700; }
+
+.fav-cell { position: relative; }
+.fav-check { position: absolute; top: 8px; right: 8px; z-index: 2; background: rgba(255,255,255,0.9);
+  border-radius: 6px; padding: 3px; display: flex; }
+.fav-check input { accent-color: var(--violet); width: 18px; height: 18px; }

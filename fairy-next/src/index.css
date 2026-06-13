@@ -1,0 +1,84 @@
+/* ── 당신편 디자인 시스템 (전역) ────────────────────────────────────────────
+   공식 정체성: 청록(teal) — 시연자료 포스터 로고색. 가격/강조는 원본 코랄레드.
+   (변수명 violet은 유지하되 값은 청록) */
+:root {
+  --violet: #2c9c8f;          /* 브랜드 청록 — 당신편 공식 로고색 */
+  --violet-dark: #21796f;
+  --violet-soft: #e4f4f1;
+  --mint: #2bb6a6;            /* 채팅/보조 액션 — 밝은 민트 */
+  --accent: #fe434c;          /* 가격/EVENT 강조 — 원본 코랄레드 */
+  --ink: #1f2024;
+  --gray: #6b7280;
+  --line: #ececf0;
+  --bg: #fafafb;
+  --white: #ffffff;
+  --danger: #ef4444;
+  --radius: 14px;
+  --shadow: 0 2px 12px rgba(8, 30, 40, 0.06);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', -apple-system, 'Segoe UI', 'Malgun Gothic', sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+img { display: block; }
+
+/* 레이아웃 */
+.container { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+.page { padding: 24px 0 64px; }
+.page-title { font-size: 22px; font-weight: 800; margin: 0 0 18px; }
+
+/* 버튼 */
+.btn {
+  border: none; border-radius: 10px; padding: 12px 18px;
+  font-size: 15px; font-weight: 700; transition: 0.15s;
+}
+.btn-primary { background: var(--violet); color: #fff; }
+.btn-primary:hover { background: var(--violet-dark); }
+.btn-primary:disabled { background: #c9bdf5; cursor: not-allowed; }
+.btn-ghost { background: var(--violet-soft); color: var(--violet-dark); }
+.btn-line { background: #fff; border: 1px solid var(--line); color: var(--ink); }
+.btn-chat { background: var(--mint); color: #fff; }
+.btn-chat:hover { filter: brightness(0.95); }
+.btn-block { width: 100%; }
+.btn-sm { padding: 8px 14px; font-size: 14px; border-radius: 8px; }
+
+/* 폼 */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 13px; font-weight: 700; color: var(--gray); margin-bottom: 6px; }
+.input, .textarea, .select {
+  width: 100%; border: 1px solid var(--line); border-radius: 10px;
+  padding: 12px 14px; font-size: 15px; background: #fff; color: var(--ink);
+}
+.input:focus, .textarea:focus, .select:focus { outline: 2px solid var(--violet-soft); border-color: var(--violet); }
+.textarea { resize: vertical; min-height: 120px; }
+
+/* 칩(상태/카테고리 뱃지) */
+.chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+  background: var(--violet-soft); color: var(--violet-dark);
+}
+.chip-sold { background: #eef0f3; color: var(--gray); }
+.chip-reserved { background: #fff3e0; color: #c47f17; }
+
+/* 공통 상태 메시지 */
+.muted { color: var(--gray); }
+.error-text { color: var(--danger); font-size: 14px; margin: 8px 0; }
+.empty { text-align: center; color: var(--gray); padding: 64px 0; }
+.center-narrow { max-width: 420px; margin: 0 auto; }
+
+/* 카드 그리드 */
+.grid {
+  display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}

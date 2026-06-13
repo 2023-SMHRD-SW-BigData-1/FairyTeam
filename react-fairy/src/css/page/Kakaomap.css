@@ -1,14 +1,19 @@
 .KaIF {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
+
 .KaIF > li {
   width: 100%;
   height: 3vh;
 }
+
 .KaIF > li > input {
   width: 60%;
   height: 100%;
 }
+
 .KaIF > li > button {
   width: 20%;
   height: 100%;
@@ -16,47 +21,62 @@
 }
 
 .realMap {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 30px;
 }
+
 .realMap > li {
   width: 100%;
 }
+
 .realMap #myMap {
   width: 500px;
   height: 500px;
 }
+
 .realMap #myMap, .realMap #result-list {
   border: 1px solid #000;
 }
 
 .result-list-num {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 100%;
   gap: 10px;
   background-color: #eee;
   margin-bottom: 10px;
 }
+
 .result-list-num:hover {
   background-color: #ccc;
 }
+
 .result-list-num > li {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
   font-size: 1.2rem;
 }
+
 .result-list-num > li > span {
   font-size: 1.5rem;
   cursor: pointer;
 }
+
 .result-list-num > li:nth-child(1) {
   cursor: pointer;
   width: 10%;
   line-height: 3vh;
   text-align: center;
 }
+
 .result-list-num > li:nth-child(2) {
   cursor: pointer;
-}/*# sourceMappingURL=KaKaoMap.css.map */
+}
+/*# sourceMappingURL=KaKaoMap.css.map */

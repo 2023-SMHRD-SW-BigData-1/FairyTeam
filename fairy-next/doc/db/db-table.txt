@@ -1,0 +1,211 @@
+================================================================================
+ FAIRY DB 테이블 설계서 (CREATE 문)
+ - MariaDB / MySQL 8, InnoDB, utf8mb4
+ - 이 파일은 "사람이 읽는 설계 문서". 실제 실행 파일은 server/db/schema.sql 과 동일.
+ - 실행: DBeaver나 mysql CLI에서 아래를 위→아래 순서로 실행.
+   (또는 server 폴더에서  node db/run-sql.js  로 schema.sql+seed.sql 자동 실행)
+ - 컨벤션: PK=BIGINT AUTO_INCREMENT(category만 code 자연키) / 감사컬럼(created_at,
+           reg_id 등) / 소프트삭제(deleted_at) / 금액 INT(원) / 좌표 DECIMAL(10,7)
+================================================================================
+
+-- ── DB 생성 & 선택 ──────────────────────────────────────────────────────────
+CREATE DATABASE IF NOT EXISTS fairy DEFAULT CHARSET=utf8mb4;
+USE fairy;
+
+-- ── 재실행 가능하게: 자식 → 부모 순서로 DROP (FK 때문) ──────────────────────
+DROP TABLE IF EXISTS chat_message;
+DROP TABLE IF EXISTS chat_room;
+DROP TABLE IF EXISTS favorite;
+DROP TABLE IF EXISTS product_image;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS member;
+DROP TABLE IF EXISTS category;
+
+
+-- ============================================================================
+-- 1. category  : 카테고리 (code가 URL의 :code로 쓰임, 소량 고정 룩업)
+-- ============================================================================
+CREATE TABLE category (
+  code        VARCHAR(20)  NOT NULL,                 -- '100','200'... (옛 Fairy 코드체계)
+  name        VARCHAR(50)  NOT NULL,                 -- '여성의류'
+  emoji       VARCHAR(10)  NULL,                     -- 표시용 이모지
+  sort_order  INT          NOT NULL DEFAULT 0,       -- 정렬 순서
+  is_active   TINYINT(1)   NOT NULL DEFAULT 1,       -- 노출 여부
+  PRIMARY KEY (code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- ============================================================================
+-- 2. member  : 회원 (비번은 반드시 BCrypt 해시 — 옛 Fairy의 평문저장 폐기)
+-- ============================================================================
+CREATE TABLE member (
+  id            BIGINT        NOT NULL AUTO_INCREMENT,
+  email         VARCHAR(190)  NOT NULL,              -- 로그인 ID
+  password_hash VARCHAR(100)  NOT NULL,             -- bcrypt 해시($2b$...)
+  name          VARCHAR(50)   NOT NULL,             -- 실명
+  nickname      VARCHAR(50)   NOT NULL,             -- 거래용 닉네임(중복불가)
+  phone         VARCHAR(30)   NULL,
+  avatar_url    VARCHAR(500)  NULL,                 -- 프로필 사진
+  region_name   VARCHAR(100)  NULL,                 -- 동네 이름(거래 위치)
+  lat           DECIMAL(10,7) NULL,                 -- 동네 위도
+  lng           DECIMAL(10,7) NULL,                 -- 동네 경도
+  role          ENUM('MEMBER','ADMIN')      NOT NULL DEFAULT 'MEMBER',
+  status        ENUM('ACTIVE','SUSPENDED')  NOT NULL DEFAULT 'ACTIVE',
+  reg_id        VARCHAR(190)  NULL,                 -- 감사: 만든 사람
+  created_at    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_id     VARCHAR(190)  NULL,                 -- 감사: 수정한 사람
+  updated_at    DATETIME      NULL ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at    DATETIME      NULL,                 -- 소프트삭제(탈퇴)
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_member_email    (email),
+  UNIQUE KEY uq_member_nickname (nickname)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- ============================================================================
+-- 3. product  : 상품 (판매자 소유. 상태=판매중/예약중/거래완료)
+-- ============================================================================
+CREATE TABLE product (
+  id            BIGINT        NOT NULL AUTO_INCREMENT,
+  seller_id     BIGINT        NOT NULL,             -- 판매자(member.id)
+  category_code VARCHAR(20)   NOT NULL,             -- 카테고리(category.code)
+  title         VARCHAR(120)  NOT NULL,
+  description   TEXT          NULL,
+  price         INT           NOT NULL DEFAULT 0,   -- 원 단위. 0 = 나눔
+  is_negotiable TINYINT(1)    NOT NULL DEFAULT 0,   -- 가격제안 받기
+  condition_type ENUM('USED','NEW') NOT NULL DEFAULT 'USED', -- 상품상태(중고/새상품)
+  exchangeable  TINYINT(1)    NOT NULL DEFAULT 0,   -- 교환 가능 여부
+  quantity      INT           NOT NULL DEFAULT 1,   -- 수량
+  status        ENUM('ON_SALE','RESERVED','SOLD') NOT NULL DEFAULT 'ON_SALE',
+  thumbnail_url VARCHAR(500)  NULL,                 -- 대표사진(목록용)
+  view_count    INT           NOT NULL DEFAULT 0,
+  region_name   VARCHAR(100)  NULL,                 -- 거래 희망 동네
+  lat           DECIMAL(10,7) NULL,
+  lng           DECIMAL(10,7) NULL,
+  reg_id        VARCHAR(190)  NULL,
+  created_at    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_id     VARCHAR(190)  NULL,
+  updated_at    DATETIME      NULL ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at    DATETIME      NULL,
+  PRIMARY KEY (id),
+  KEY idx_product_category (category_code, status, deleted_at),
+  KEY idx_product_seller   (seller_id),
+  KEY idx_product_created  (created_at),
+  CONSTRAINT fk_product_seller   FOREIGN KEY (seller_id)     REFERENCES member(id),
+  CONSTRAINT fk_product_category FOREIGN KEY (category_code) REFERENCES category(code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- ============================================================================
+-- 4. product_image  : 상품 사진 여러 장(정렬순). 0번이 보통 썸네일.
+-- ============================================================================
+CREATE TABLE product_image (
+  id         BIGINT       NOT NULL AUTO_INCREMENT,
+  product_id BIGINT       NOT NULL,
+  url        VARCHAR(500) NOT NULL,
+  sort_order INT          NOT NULL DEFAULT 0,
+  PRIMARY KEY (id),
+  KEY idx_image_product (product_id, sort_order),
+  CONSTRAINT fk_image_product FOREIGN KEY (product_id)
+    REFERENCES product(id) ON DELETE CASCADE        -- 상품 지우면 사진도 같이
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- ============================================================================
+-- 5. favorite  : 찜 ((회원,상품) 복합PK = 같은 상품 중복 찜 방지)
+-- ============================================================================
+CREATE TABLE favorite (
+  member_id  BIGINT   NOT NULL,
+  product_id BIGINT   NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (member_id, product_id),
+  KEY idx_fav_product (product_id),
+  CONSTRAINT fk_fav_member  FOREIGN KEY (member_id)  REFERENCES member(id)  ON DELETE CASCADE,
+  CONSTRAINT fk_fav_product FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- ============================================================================
+-- 6. chat_room  : 채팅방 (상품 1개에 구매자-판매자 1:1, 중복생성 방지)
+-- ============================================================================
+CREATE TABLE chat_room (
+  id         BIGINT   NOT NULL AUTO_INCREMENT,
+  product_id BIGINT   NOT NULL,
+  buyer_id   BIGINT   NOT NULL,                     -- 문의 건 사람
+  seller_id  BIGINT   NOT NULL,                     -- 상품 주인
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_room (product_id, buyer_id),        -- 같은 상품에 같은 구매자 방 1개
+  KEY idx_room_buyer  (buyer_id),
+  KEY idx_room_seller (seller_id),
+  CONSTRAINT fk_room_product FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE,
+  CONSTRAINT fk_room_buyer   FOREIGN KEY (buyer_id)   REFERENCES member(id),
+  CONSTRAINT fk_room_seller  FOREIGN KEY (seller_id)  REFERENCES member(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- ============================================================================
+-- 7. chat_message  : 채팅 메시지 (텍스트/이미지/이모티콘, read_at=안읽음표시)
+-- ============================================================================
+CREATE TABLE chat_message (
+  id         BIGINT        NOT NULL AUTO_INCREMENT,
+  room_id    BIGINT        NOT NULL,
+  sender_id  BIGINT        NOT NULL,
+  content    VARCHAR(2000) NULL,
+  image_url  VARCHAR(500)  NULL,
+  emoticon   VARCHAR(50)   NULL,
+  read_at    DATETIME      NULL,                    -- NULL = 아직 안읽음
+  created_at DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_msg_room (room_id, id),
+  CONSTRAINT fk_msg_room   FOREIGN KEY (room_id)   REFERENCES chat_room(id) ON DELETE CASCADE,
+  CONSTRAINT fk_msg_sender FOREIGN KEY (sender_id) REFERENCES member(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ============================================================================
+-- 8. store  : 편의점 (위탁 픽업 장소) — 당신편의 핵심. 카카오맵 좌표로 검색.
+--    ※ DROP 순서 주의: trade(자식) → product/member/store(부모) 순으로 지워야 함.
+-- ============================================================================
+CREATE TABLE store (
+  id         BIGINT        NOT NULL AUTO_INCREMENT,
+  brand      VARCHAR(30)   NOT NULL,             -- GS25/CU/세븐일레븐/이마트24
+  name       VARCHAR(100)  NOT NULL,             -- 'GS25 광주송정역점'
+  address    VARCHAR(200)  NOT NULL,
+  lat        DECIMAL(10,7) NOT NULL,
+  lng        DECIMAL(10,7) NOT NULL,
+  is_partner TINYINT(1)    NOT NULL DEFAULT 1,   -- 제휴(위탁 가능) 편의점
+  created_at DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_store_geo (lat, lng)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ============================================================================
+-- 9. trade  : 위탁거래. 구매자 요청 → 판매자 위탁 → 구매자 픽업.
+--    상태: REQUESTED(약속) → CONSIGNED(맡김) → DONE(픽업) / CANCELED(취소)
+--    상태에 맞춰 product.status 동기화(RESERVED/SOLD/ON_SALE).
+-- ============================================================================
+CREATE TABLE trade (
+  id           BIGINT   NOT NULL AUTO_INCREMENT,
+  product_id   BIGINT   NOT NULL,
+  seller_id    BIGINT   NOT NULL,
+  buyer_id     BIGINT   NOT NULL,
+  store_id     BIGINT   NOT NULL,               -- 위탁 픽업 편의점
+  price        INT      NOT NULL,               -- 거래 확정가
+  status       ENUM('REQUESTED','CONSIGNED','DONE','CANCELED') NOT NULL DEFAULT 'REQUESTED',
+  requested_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  consigned_at DATETIME NULL,
+  done_at      DATETIME NULL,
+  PRIMARY KEY (id),
+  KEY idx_trade_product (product_id),
+  KEY idx_trade_seller (seller_id),
+  KEY idx_trade_buyer (buyer_id),
+  CONSTRAINT fk_trade_product FOREIGN KEY (product_id) REFERENCES product(id),
+  CONSTRAINT fk_trade_seller  FOREIGN KEY (seller_id)  REFERENCES member(id),
+  CONSTRAINT fk_trade_buyer   FOREIGN KEY (buyer_id)   REFERENCES member(id),
+  CONSTRAINT fk_trade_store   FOREIGN KEY (store_id)   REFERENCES store(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+================================================================================
+ 끝. 샘플 데이터는 server/db/seed.sql 참고 (계정 3개, 편의점 8곳, 상품 18개,
+     위탁거래 예시 1건. 비번 전부 test1234).
+================================================================================

@@ -1,0 +1,106 @@
+================================================================================
+ 당신편 백엔드 구조 — 이해 노트 (공부용)
+ 작성일: 2026-06-14
+ 핵심: "Express 백엔드 = Spring(MVC) 백엔드와 같은 구조, 언어만 다름"
+       당신편은 여기에 Socket.io(실시간 채팅)가 한 겹 더 얹혀 있다.
+================================================================================
+
+[1] 서버는 3개다 (헷갈림 주의)
+--------------------------------------------------------------------------------
+ [브라우저]
+     │
+ ① Vite 개발서버 (5173)   → React 화면을 보여줌            ✅ npm run dev (루트)
+     │  "상품 목록 줘" (HTTP/JSON) + WebSocket(채팅)
+ ② Express 웹서버 (4000)  → 요청받고 DB조회해서 JSON응답     🔨 server/
+     │                       + Socket.io로 실시간 메시지 중계
+     │  "SELECT * FROM product" (SQL)
+ ③ MySQL DB서버 (3306)    → 데이터 저장소                   ✅ 로컬 MySQL/MariaDB
+
+ - "DB 서버를 만든다" ❌ → MySQL은 이미 깔려 있음. 우리는 "테이블 생성 + 연결"만.
+ - 지금 만든 건 ②번 Express(웹/API + 소켓 서버).
+
+
+[2] 왜 중간에 ②Express가 꼭 필요한가
+--------------------------------------------------------------------------------
+ - React(브라우저)가 DB에 직접 접속하면 안 됨: DB 비번 노출 + 아무나 데이터 조작.
+ - 그래서 중간에 Express를 둠: React는 Express한테만 말하고,
+   Express만 DB 비번을 알고 안전하게 접근 + 허용/거부 규칙·보안 담당.
+ - 이게 "리액트 특성"이 아니라 "웹앱의 정석": 프론트 → API → DB.
+
+
+[3] Spring(MVC) ↔ Express 1:1 대응  ★가장 중요★
+--------------------------------------------------------------------------------
+ Spring                                  Express (당신편)
+ -------------------------------------   ------------------------------------
+ web/controller/*Controller.java     →   routes/*.js  (router.get('/api/...'))
+ domain/*Service                     →   routes 안 로직 (규모 작아 분리 안 함)
+ resources/sqlMapper/*.xml (MyBatis) →   pool.query("SELECT ...")  (mysql2)
+ application.properties              →   .env
+ SecurityConfig + JwtFilter          →   middleware/auth.js
+   (authRequired/authOptional/requireRole)
+ @PreAuthorize("hasRole('ADMIN')")   →   requireRole('ADMIN')
+ DataSource(HikariCP)                →   db.js (mysql2 createPool)
+ Application.java (main)             →   server.js (server.listen(4000))
+ pom.xml (Maven 의존성)             →   package.json
+
+ → 이름만 다르고 하는 일은 동일.
+
+
+[4] 요청 흐름도 (수직 흐름 동일)
+--------------------------------------------------------------------------------
+ Spring : 브라우저 → Controller → Service → Mapper(SQL) → DB
+ Express: React    → Route(미들웨어 통과) → pool.query(SQL) → MySQL
+
+ 예) GET /api/products
+   App.jsx → api/products.js(fetch) → routes/products.js
+     → authOptional(로그인이면 찜여부 표시) → pool.query → JSON 응답
+
+
+[5] SQL은 거의 똑같다
+--------------------------------------------------------------------------------
+ - SQL 문법 자체 동일. MyBatis "포장지"가 사라지고 SQL이 JS 코드에 직접 들어옴.
+ - 파라미터는 ? 바인딩 (SQL 인젝션 방지). MyBatis의 #{} 와 같은 역할.
+     pool.query("SELECT * FROM product WHERE id = ?", [id])
+ - 트랜잭션: conn = pool.getConnection() → beginTransaction → commit/rollback.
+   (위탁거래 생성/상태변경, 상품등록+이미지 저장에 사용)
+
+
+[6] 당신편만의 추가 한 겹 — Socket.io (실시간 채팅)
+--------------------------------------------------------------------------------
+ - REST(요청-응답)만으론 "상대가 보낸 메시지를 즉시" 받기 어려움 → WebSocket 사용.
+ - server.js 가 http.createServer(app) 로 Express를 감싸고 initSocket(server) 호출.
+   → REST(4000)와 소켓이 "같은 포트"를 공유.
+ - socket.js 흐름:
+     ① 핸드셰이크 때 JWT 검증(io.use) → 인증된 사용자만 연결
+     ② 'room:join' → 참여자인지 DB 확인 후 방 입장
+     ③ 'message:send' → DB 저장 후 io.to(room).emit('message:new', ...) 로 브로드캐스트
+ - Spring으로 치면 WebSocket + STOMP 핸들러에 해당.
+ ※ 배포 시 주의: Socket.io는 WebSocket을 지원하는 호스팅이어야 함(Render는 OK).
+
+
+[7] 폴더 구조 (server/)
+--------------------------------------------------------------------------------
+ server/
+ ├─ server.js          ← 시작점 (Express + Socket.io, 라우터 등록)
+ ├─ db.js              ← 커넥션 풀
+ ├─ socket.js          ← 실시간 채팅 (JWT 인증 + 방 참여검증 + 브로드캐스트)
+ ├─ .env              ← DB 접속정보 + JWT 시크릿  (git 제외)
+ ├─ middleware/auth.js ← JWT 발급/검증 + 역할 접근제어
+ ├─ routes/            ← controller 역할 (6개)
+ │   ├─ auth.js        (회원가입/로그인/내정보)
+ │   ├─ categories.js  (대분류 + 대/중/소 트리)
+ │   ├─ products.js    (목록/상세/CRUD, 하위카테고리 포함 필터)
+ │   ├─ favorites.js   (찜)
+ │   ├─ stores.js      (편의점 거리순/중간지점 검색 — Haversine)
+ │   ├─ trades.js      (위탁거래 상태머신)
+ │   └─ uploads.js     (이미지 업로드 multer)
+ └─ db/
+     ├─ schema.sql           ← CREATE TABLE 9개
+     ├─ seed_categories.sql  ← 카테고리 대/중/소 (자동생성)
+     ├─ gen-categories.js    ← 원본에서 카테고리 추출 → seed_categories.sql 생성
+     ├─ seed.sql             ← 회원/편의점/상품/찜/채팅/위탁거래 샘플
+     └─ run-sql.js           ← schema→seed_categories→seed 순서 실행 도구
+
+================================================================================
+ (끝) 이 노트는 "구조 공부용". 진행 상황·할 일은 진행상황_이어서할일.txt 참고.
+================================================================================

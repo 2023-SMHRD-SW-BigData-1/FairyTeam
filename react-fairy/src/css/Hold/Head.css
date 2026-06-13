@@ -1,32 +1,47 @@
 .HeadGnbBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: right;
+  -webkit-box-pack: right;
+      -ms-flex-pack: right;
+          justify-content: right;
   gap: 10px;
 }
+
 .HeadGnbBox > li {
   width: 10%;
   text-align: center;
   color: #a3a3a3;
 }
+
 .HeadGnbBox > li:hover {
   color: #333;
   font-weight: bold;
 }
+
 .HeadGnbBox > li:nth-child(1) {
   width: 7%;
 }
+
 .HeadGnbBox > li:nth-child(2) {
   width: 7%;
 }
+
 .HeadGnbBox > li:nth-child(3) {
   width: 7%;
 }
 
 .head {
   margin-top: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: right;
-  align-items: center;
+  -webkit-box-pack: right;
+      -ms-flex-pack: right;
+          justify-content: right;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 100%;
   gap: 10px;
 }
@@ -34,33 +49,44 @@
 .headBox {
   margin-right: auto;
   width: 60%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: end;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
   gap: 10px;
 }
+
 .headBox .LogoBox {
   width: 70px;
 }
+
 .headBox .LogoBox .LogoImg {
   width: 100%;
 }
+
 .headBox .fa-magnifying-glass {
-  color: rgb(48, 78, 88);
+  color: #304e58;
   font-size: 1.5rem;
   position: relative;
   top: -10px;
 }
+
 .headBox .daangsp {
   width: 100px;
 }
+
 .headBox .daangsp > p {
   font-size: 1.5rem;
   display: block;
 }
+
 .headBox .inputBox {
   margin-left: 50px;
   width: 80%;
 }
+
 .headBox .inputBox > input {
   width: 100%;
   margin-left: 50px;
@@ -87,19 +113,26 @@
   color: lightcoral;
   font-weight: bold;
   position: absolute;
-  transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+  -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
+
 .CPCtt::before > span {
   display: inline-block;
+  -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
+
 .CPCtt::before > span:hover > span {
-  transform: translateX(-100%);
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
 }
 
 .CPCtt:hover::before {
-  transform: translateX(0);
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
 }
 
 .CPCttLove {
@@ -113,23 +146,29 @@
   border-radius: 25px;
   font-weight: bold;
 }
+
 .CPCttLove > span {
   margin-left: 15px;
   display: inline-block;
+  -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
+
 .CPCttLove > span .CPjjim:hover .CPjjim {
-  transform: translateX(-80%);
+  -webkit-transform: translateX(-80%);
+          transform: translateX(-80%);
 }
 
 .CPCttLove:hover::before {
-  transform: translateX(15px);
+  -webkit-transform: translateX(15px);
+          transform: translateX(15px);
 }
 
 .headNv .btn2 {
   display: none;
   border: none;
 }
+
 .headNv .btn2 .fa-bars {
   font-size: 3rem;
   text-align: center;
@@ -157,12 +196,16 @@
     width: 100%;
   }
   .head {
-    flex-wrap: wrap;
-    justify-content: left;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: left;
+        -ms-flex-pack: left;
+            justify-content: left;
   }
   .head .headBox {
     width: 100%;
-    flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
   }
   .head .headBox .LogoBox {
     margin: 0 auto;
@@ -181,6 +224,8 @@
     margin-left: -50px;
   }
   .head .CPCttLove:hover::before {
-    transform: translateX(15px);
+    -webkit-transform: translateX(15px);
+            transform: translateX(15px);
   }
-}/*# sourceMappingURL=Head.css.map */
+}
+/*# sourceMappingURL=Head.css.map */

@@ -1,22 +1,34 @@
 .NaviCtgBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 40px;
 }
+
 .NaviCtgBox .ham {
   width: 100px;
 }
+
 .NaviCtgBox .ham .realHam {
   background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: left;
-  align-items: center;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   gap: 10px;
   font-weight: bold;
 }
+
 .NaviCtgBox .ham .realHam .fa-bars {
   line-height: 40px;
   font-size: 2rem;
 }
+
 .NaviCtgBox .NaviCtgGnb {
   z-index: 4;
   width: 150px;
@@ -24,9 +36,11 @@
   padding-top: 40px;
   position: relative;
 }
+
 .NaviCtgBox .NaviCtgGnb > li {
   display: none;
 }
+
 .NaviCtgBox .NaviCtgGnb > li > a {
   background-color: lightblue;
   display: block;
@@ -37,6 +51,7 @@
   stroke: #000;
   font-size: 1.2rem;
 }
+
 .NaviCtgBox .NaviCtgGnb .subBox {
   width: 1200px;
   height: 450px;
@@ -47,16 +62,21 @@
   display: none;
   z-index: 2;
 }
+
 .NaviCtgBox .NaviCtgGnb .subBox > ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
   height: 328px;
 }
+
 .NaviCtgBox .NaviCtgGnb .subBox > ul > li {
   height: 450px;
   border-right: 1px solid whitesmoke;
   padding: 30px;
 }
+
 .NaviCtgBox .NaviCtgGnb .subBox > ul > li .ctgPH {
   margin-bottom: 20px;
   padding-bottom: 10px;
@@ -64,65 +84,92 @@
   color: #555;
   font-size: 1.5rem;
 }
+
 .NaviCtgBox .NaviCtgGnb .subBox > ul > li .ctgP {
   margin-top: 10px;
 }
+
 .NaviCtgBox .NaviCtgGnb .subBox > ul > li .ctgP:hover {
   color: skyblue;
   font-size: 1.1rem;
 }
+
 .NaviCtgBox .NaviCtgGnb > li:hover .subBox {
   display: block;
 }
+
 .NaviCtgBox .NaviCtgGnb:hover li {
   display: block;
 }
+
 .NaviCtgBox .active {
   border: 1px solid white;
 }
+
 .NaviCtgBox .active .show {
   background-color: pink;
 }
+
 .NaviCtgBox > ul {
   width: 40%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: left;
-  align-items: center;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-left: 150px;
 }
+
 .NaviCtgBox > ul > li {
   width: 100%;
 }
+
 .NaviCtgBox > ul > li .NaviCtt {
   width: 100%;
   padding: 10px;
   text-align: center;
   position: relative;
 }
+
 .NaviCtgBox > ul > li .NaviCtt::after {
   position: absolute;
-  content: "";
+  content: '';
   width: 0;
   height: 5px;
   background-color: skyblue;
   left: 0;
   bottom: 0;
+  -webkit-transition: width 0.5s ease-in-out;
   transition: width 0.5s ease-in-out;
 }
+
 .NaviCtgBox > ul > li .NaviCtt:hover::after {
   width: 70%;
-  transition: 0.3s all ease-in-out;
-  transform: translateX(20%);
+  -webkit-transition: .3s all ease-in-out;
+  transition: .3s all ease-in-out;
+  -webkit-transform: translateX(20%);
+          transform: translateX(20%);
 }
 
 @media all and (max-width: 468px) {
   .NaviCtgBox {
-    flex-direction: row-reverse;
-    justify-content: left;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+    -webkit-box-pack: left;
+        -ms-flex-pack: left;
+            justify-content: left;
   }
   .NaviCtgBox .ham .realHam {
     margin-left: 50px;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     gap: 10px;
     font-weight: bold;
   }
@@ -150,8 +197,13 @@
     z-index: 2;
   }
   .NaviCtgBox .NaviCtgGnb .subBox > ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: row-reverse;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
     width: 100%;
     height: 328px;
   }
@@ -189,4 +241,5 @@
   .NaviCtgBox .NaviCttBox > li {
     width: 100%;
   }
-}/*# sourceMappingURL=NavList.css.map */
+}
+/*# sourceMappingURL=NavList.css.map */

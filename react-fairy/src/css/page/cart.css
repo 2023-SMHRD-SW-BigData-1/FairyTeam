@@ -1,30 +1,37 @@
 .Cart {
   margin-top: 30px;
 }
+
 .Cart .bucketNav {
   width: 100%;
   display: block;
   margin-bottom: 30px;
   border-bottom: 1px solid #000;
 }
+
 .Cart .bucketNav > p {
   margin-bottom: 20px;
 }
+
 .Cart .bucketBox {
   width: 100%;
 }
+
 .Cart .bucketBox li:nth-child(1) {
   width: 100%;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table {
   width: 100%;
   border-bottom: 1px solid #d3d3d3;
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table tr {
   border-bottom: 1px solid #d3d3d3;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table th {
   padding: 12px 0;
   border-top: 1px solid #d3d3d3;
@@ -35,42 +42,53 @@
   text-align: center;
   letter-spacing: -0.1em;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table th:first-child {
   width: 60px;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table .empty {
   display: node;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table td {
   text-align: center;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table td:nth-child(4) {
   color: #ff006c;
   font-weight: bold;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table td > article {
   padding: 6px;
   overflow: hidden;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table td > article > a {
   float: left;
   display: inline-block;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table td > article > a > img {
   width: 80px;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table td > article > div {
   float: left;
   margin-left: 10px;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table td > article > div > h2 {
   text-align: left;
 }
+
 .Cart .bucketBox li:nth-child(1) > form table td > article > div > p {
   text-align: left;
   color: #777;
   margin-top: 4px;
 }
+
 .Cart .bucketBox li:nth-child(1) > form input[name=del] {
   border-color: #bdbdbd;
   border-bottom-color: #828282;
@@ -80,14 +98,17 @@
   border-width: 1px;
   margin-top: 6px;
 }
+
 .Cart .bucketBox li:nth-child(2) .total {
   float: right;
   width: 360px;
   padding: 20px;
   background: #fff;
   border: 1px solid #d3d3d3;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
+
 .Cart .bucketBox li:nth-child(2) .total h2 {
   width: 100%;
   font-weight: bold;
@@ -95,28 +116,35 @@
   border-bottom: 1px solid #111;
   margin-bottom: 10px;
   padding-bottom: 10px;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   color: #1e1e1e;
 }
+
 .Cart .bucketBox li:nth-child(2) .total table {
   width: 100%;
 }
+
 .Cart .bucketBox li:nth-child(2) .total table tr:nth-last-child(1) td {
   font-size: 20px;
 }
+
 .Cart .bucketBox li:nth-child(2) .total table tr:nth-last-child(1) td:last-child {
   color: #ff006c;
   font-size: 20px;
   font-weight: bold;
 }
+
 .Cart .bucketBox li:nth-child(2) .total table td {
   padding: 10px 0;
   font-size: 14px;
   color: #555;
 }
+
 .Cart .bucketBox li:nth-child(2) .total table td:last-child {
   text-align: right;
 }
+
 .Cart .bucketBox li:nth-child(2) .total input[type=submit] {
   width: 100%;
   height: 56px;
@@ -127,6 +155,8 @@
   background: #ed2f2f;
   background-image: -webkit-linear-gradient(#ed2f2f, #dd0e0e);
   color: #fff;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   margin-top: 10px;
-}/*# sourceMappingURL=cart.css.map */
+}
+/*# sourceMappingURL=cart.css.map */

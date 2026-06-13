@@ -1,0 +1,19 @@
+.cl { list-style: none; padding: 0; margin: 0; max-width: 600px; }
+.cl-item {
+  display: flex; align-items: center; gap: 12px; padding: 14px 6px;
+  border-bottom: 1px solid var(--line); position: relative;
+}
+.cl-item:hover { background: var(--white); }
+.cl-thumb { width: 52px; height: 52px; border-radius: 10px; overflow: hidden; background: var(--violet-soft); flex-shrink: 0; }
+.cl-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.cl-noimg { width: 100%; height: 100%; display: grid; place-items: center; }
+.cl-body { flex: 1; min-width: 0; }
+.cl-top { display: flex; justify-content: space-between; align-items: baseline; }
+.cl-nick { font-weight: 700; }
+.cl-time { font-size: 12px; }
+.cl-last { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cl-prod { font-size: 12px; margin-top: 2px; }
+.cl-badge {
+  background: var(--violet); color: #fff; font-size: 12px; font-weight: 700;
+  min-width: 20px; height: 20px; border-radius: 999px; display: grid; place-items: center; padding: 0 6px;
+}

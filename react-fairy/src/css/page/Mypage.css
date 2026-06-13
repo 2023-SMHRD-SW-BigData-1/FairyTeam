@@ -3,6 +3,7 @@
   height: 100vh;
   margin-top: 30px;
 }
+
 .myPage .wrap {
   background-color: #F8F8F8;
   /* 단골상점 , 상품후기 , 적립금 박스 */
@@ -18,6 +19,7 @@
   /* 공지사항 이용안내 고객센터 */
   /*  */
 }
+
 .myPage .wrap .circle {
   display: inline-block;
   width: 5px;
@@ -27,28 +29,36 @@
   top: -5px;
   left: 110%;
 }
+
 .myPage .wrap .blueContainer {
   height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   padding: 10px;
   border: 1px solid #000;
   border-radius: 15px;
 }
+
 .myPage .wrap .blueContainer .fa-circle-user {
   font-size: 5rem;
   color: wheat;
 }
+
 .myPage .wrap .blueContainer .myPageIden {
   margin-left: 20px;
 }
+
 .myPage .wrap .blueContainer .myPageIden > li {
   font-weight: bold;
   font-size: 20px;
   margin-top: 3px;
 }
+
 .myPage .wrap .blueContainer .myPageIden > li:first-child {
-  color: rgb(194, 161, 31);
+  color: #c2a11f;
 }
+
 .myPage .wrap .blueContainer .myPageIden > li:last-child button {
   background-color: #0D6EFD;
   border-radius: 5px;
@@ -56,126 +66,189 @@
   font-weight: bold;
   border: none;
 }
+
 .myPage .wrap .blueContainer .myPageIden > li:last-child button:hover {
   background-color: #0B5ED7;
   color: whitesmoke;
 }
+
 .myPage .wrap .blueContainer .modify {
   margin-left: auto;
 }
+
 .myPage .wrap .summaryContainer {
   background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   padding: 21px 16px;
   height: 90px;
   margin-bottom: 10px;
 }
+
 .myPage .wrap .summaryContainer .item {
-  flex-grow: 1;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
 }
+
 .myPage .wrap .summaryContainer .number {
   font-size: 19px;
   font-weight: bold;
   color: #3b72de;
 }
+
 .myPage .wrap .summaryContainer .item > div:nth-child(2) {
   font-size: 13px;
 }
+
 .myPage .wrap .shippingStatusContainer {
   padding: 21px 16px;
   background-color: white;
   margin-bottom: 10px;
 }
+
 .myPage .wrap .shippingStatusContainer .title {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 15px;
 }
+
 .myPage .wrap .shippingStatusContainer .status {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   margin-bottom: 21px;
 }
+
 .myPage .wrap .shippingStatusContainer .item {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
+
 .myPage .wrap .shippingStatusContainer .number {
   font-size: 31px;
   font-weight: 500;
   text-align: center;
 }
+
 .myPage .wrap .shippingStatusContainer .text {
   font-size: 12px;
   font-weight: normal;
   color: #c2c2c2;
   text-align: center;
 }
+
 .myPage .wrap .shippingStatusContainer .icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 20px;
   width: 16px;
   height: 16px;
 }
+
 .myPage .wrap .listContainer1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
+
 .myPage .wrap .listContainer1 > li {
   width: 100%;
 }
+
 .myPage .wrap .listContainer {
   padding: 0;
   background-color: #ffffff;
   margin-bottom: 10px;
 }
+
 .myPage .wrap .listContainer .item {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 16px;
   color: black;
   text-decoration: none;
   height: 56px;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
+
 .myPage .wrap .listContainer .icon {
   margin-right: 14px;
 }
+
 .myPage .wrap .listContainer .text {
   font-size: 16px;
   position: relative;
 }
+
 .myPage .wrap .listContainer .text:hover {
   font-size: 1.2rem;
 }
+
 .myPage .wrap .listContainer .right {
   margin-left: auto;
 }
+
 .myPage .wrap .listContainer .right .blct {
   font-size: 14px;
   font-weight: bold;
   margin-left: 20px;
 }
+
 .myPage .wrap .infoContainer {
   background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 100px;
   margin-bottom: 10px;
 }
+
 .myPage .wrap .infoContainer .item {
-  flex-grow: 1;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   font-size: 13px;
   text-decoration: none;
   color: black;
 }
+
 .myPage .wrap .infoContainer .item > div:first-child {
   margin-bottom: 2px;
 }
+
 .myPage .wrap .listContainer .item:hover,
 .myPage .wrap .infoContainer .item:hover {
   /*   background-color: #f8f8f8; */
-}/*# sourceMappingURL=myPage.css.map */
+}
+/*# sourceMappingURL=myPage.css.map */

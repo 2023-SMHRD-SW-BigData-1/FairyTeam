@@ -1,0 +1,36 @@
+.tr-product {
+  display: flex; gap: 12px; align-items: center; padding: 14px;
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 14px;
+}
+.tr-thumb { width: 64px; height: 64px; border-radius: 10px; overflow: hidden; background: var(--violet-soft); flex-shrink: 0; }
+.tr-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.tr-noimg { width: 100%; height: 100%; display: grid; place-items: center; }
+.tr-ptitle { font-weight: 700; }
+.tr-pprice { font-weight: 800; font-size: 17px; margin: 2px 0; }
+.tr-pseller { font-size: 13px; }
+
+.tr-guide {
+  background: var(--violet-soft); color: var(--violet-dark); border-radius: 10px;
+  padding: 12px 14px; font-size: 13.5px; line-height: 1.5; margin-bottom: 22px;
+}
+
+.tr-stores-head { display: flex; align-items: baseline; justify-content: space-between; }
+.tr-sub { font-size: 17px; margin: 0; }
+.tr-basis { font-size: 12.5px; }
+
+.tr-stores { list-style: none; padding: 0; margin: 12px 0 20px; display: flex; flex-direction: column; gap: 8px; }
+.tr-store {
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+  border: 1px solid var(--line); border-radius: 12px; cursor: pointer; background: #fff;
+}
+.tr-store.on { border-color: var(--violet); background: var(--violet-soft); }
+.tr-store input { accent-color: var(--violet); }
+.tr-brand { font-size: 11px; font-weight: 800; padding: 3px 7px; border-radius: 6px; color: #fff; white-space: nowrap; }
+.b-GS25 { background: #00a8e1; }
+.b-CU { background: #6a2c91; }
+.tr-brand.b-세븐일레븐 { background: #00803e; }
+.tr-brand.b-이마트24 { background: #ffc600; color: #1f2024; }
+.tr-sinfo { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.tr-sname { font-weight: 600; font-size: 14.5px; }
+.tr-saddr { font-size: 12px; }
+.tr-dist { font-size: 13px; font-weight: 700; color: var(--violet-dark); white-space: nowrap; }
